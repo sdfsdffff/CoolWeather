@@ -23,7 +23,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class Main2Activity extends AppCompatActivity {
+public class ProvinceActivity extends AppCompatActivity {
     private List<String> data2=new ArrayList();
     private int[] pids=new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
     private String[] data = {"北京", "浙江", "安徽","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
@@ -43,9 +43,9 @@ public class Main2Activity extends AppCompatActivity {
         this.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick( AdapterView<?> parent, View view, int position, long id ) {
-                Log.i("点击了哪一个",""+position+":"+Main2Activity.this.pids[position]+":"+Main2Activity.this);
-                Intent intent=new Intent(Main2Activity.this,MainActivity.class);
-                intent.putExtra("pid",Main2Activity.this.pids[position]);
+                Log.i("点击了哪一个",""+position+":"+ProvinceActivity.this.pids[position]+":"+ProvinceActivity.this);
+                Intent intent=new Intent(ProvinceActivity.this,CountyActivity.class);
+                intent.putExtra("pid",ProvinceActivity.this.pids[position]);
                 startActivity(intent);
             }
         });
@@ -56,7 +56,7 @@ public class Main2Activity extends AppCompatActivity {
             public void onResponse( Call call, Response response ) throws IOException {
                 final String responseText = response.body().string();
                 String[] result = parseJSONObject(responseText);
-                Main2Activity.this.data=result;
+                ProvinceActivity.this.data=result;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
