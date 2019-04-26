@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,46 +20,39 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class CityActivity extends AppCompatActivity {
+public class CountryActivity extends AppCompatActivity {
+    private TextView textView=null;
 
-    private int[] cids = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    private String[] weather_ids= {"","",""," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ",""," "," "," "," "," "," "," "," "," "," "," "," "," "};
     private String[] data={"","",""," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ",""," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "};
+    private ListView contrylistview;
 
-
-    private TextView textView;
-    private Button button;
-
-    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_country);
+        this.textView=findViewById(R.id.textview);
+        this.contrylistview=findViewById(R.id.contrylistview);
+
         Intent intent=getIntent();
-       final int pid=intent.getIntExtra("pid",0);
-        Log.i("我们接收到了id",""+pid);
-        this.textView = (TextView) findViewById(R.id.abc);
-        this.listView=(ListView)findViewById(R.id.list_view);
-        this.button=(Button)findViewById(R.id.Btn);
-//        this.button.setOnClickListener((v)->{
-//            startActivity(new Intent(CityActivity.this,ProvincceActivity.class));
-//        });
+        int cityid=intent.getIntExtra("cid",0);
+        int pid=intent.getIntExtra("pid",0);
 
         ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,data);
-        listView.setAdapter(adapter);
-        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-              @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                  Log.i("点击了哪一个",""+position+":"+cids[position]+":"+data[position]);
-                  Intent intent = new Intent(CityActivity.this,CountryActivity.class);
-                  intent.putExtra("cid",cids[position]);
-                  intent.putExtra("pid",pid);
-                  startActivity(intent);
-              }
-               });
-        String weatherUrl = "http://guolin.tech/api/china/"+pid;
-        HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
+        contrylistview.setAdapter(adapter);
+        this.contrylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("点击了哪一个",""+position+":"+weather_ids[position]);
+                Intent intent = new Intent(CountryActivity.this,WeatherActivity.class);
+                intent.putExtra("wid",weather_ids[position]);
+                startActivity(intent);
+            }
+        });
 
+        String url="http://guolin.tech/api/china/"+pid+"/"+cityid;
+        HttpUtil.sendOkHttpRequest(url, new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -71,17 +63,22 @@ public class CityActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseText = response.body().string();
 
-                parseJSONObject(responseText);
+                //parseJSONObject(responseText);
 
+                parseJSONObject(responseText);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         textView.setText(responseText);
                     }
                 });
 
             }
+
+
         });
+
     }
     private void parseJSONObject(String responseText) {
         JSONArray jsonArray = null;
@@ -91,7 +88,7 @@ public class CityActivity extends AppCompatActivity {
                 JSONObject jsonObject = null;
                 jsonObject = jsonArray.getJSONObject(i);
                 this.data[i] = jsonObject.getString("name");
-                this.cids[i] = jsonObject.getInt("id");
+                this.weather_ids[i] = jsonObject.getString("weather_id");
             }
         } catch (JSONException e) {
             e.printStackTrace();
