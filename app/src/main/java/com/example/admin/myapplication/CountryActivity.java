@@ -52,7 +52,7 @@ public class CountryActivity extends AppCompatActivity {
         });
 
         String url="http://guolin.tech/api/china/"+pid+"/"+cityid;
-        HttpUtil.sendOkHttpRequest(url, new Callback() {
+        com.example.admin.myapplication.HttpUtil.sendOkHttpRequest(url, new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {

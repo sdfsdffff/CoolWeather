@@ -1,8 +1,8 @@
 package com.example.admin.myapplication;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,14 +44,12 @@ public class ProvincceActivity extends AppCompatActivity {
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("点击了哪一个", "" + position + ":" + ProvincceActivity.this.pids[position] + ":" + data[position]);
-                Intent intent = new Intent(ProvincceActivity.this, CountryActivity.class);
-                intent.putExtra("pid", ProvincceActivity.this.pids[position]);
+                Log.i("点击了哪一个",""+position+":"+ProvincceActivity.this.pids[position]+":"+ProvincceActivity.this.data[position]);
+                Intent intent = new Intent(ProvincceActivity.this,CityActivity.class);
+                intent.putExtra("pid",ProvincceActivity.this.pids[position]);
                 startActivity(intent);
             }
         });
-
-
 
         this.button=(Button)findViewById(R.id.Buttom);
 //        this.button.setOnClickListener((v)->{
@@ -59,7 +57,7 @@ public class ProvincceActivity extends AppCompatActivity {
 //        });
 
         String weatherUrl = "http://guolin.tech/api/china";
-        HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
+        com.example.admin.myapplication.HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -70,7 +68,7 @@ public class ProvincceActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseText = response.body().string();
 
-               parseJSONObject(responseText);
+                parseJSONObject(responseText);
 
 
                 runOnUiThread(new Runnable() {
@@ -102,3 +100,4 @@ public class ProvincceActivity extends AppCompatActivity {
         }
     }
 }
+

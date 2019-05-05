@@ -1,7 +1,7 @@
 package com.example.admin.myapplication;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class WeatherActivity extends AppCompatActivity {
         String weatherId=getIntent().getStringExtra("wid");
         String weatherUrl="http://guolin.tech/api/weather?cityid="+weatherId;
 
-        HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
+        com.example.admin.myapplication.HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 

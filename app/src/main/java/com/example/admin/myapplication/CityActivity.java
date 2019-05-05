@@ -1,8 +1,8 @@
 package com.example.admin.myapplication;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,7 +37,7 @@ public class CityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent=getIntent();
-       final int pid=intent.getIntExtra("pid",0);
+        final int pid=intent.getIntExtra("pid",0);
         Log.i("我们接收到了id",""+pid);
         this.textView = (TextView) findViewById(R.id.abc);
         this.listView=(ListView)findViewById(R.id.list_view);
@@ -49,17 +49,17 @@ public class CityActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,data);
         listView.setAdapter(adapter);
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-              @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                  Log.i("点击了哪一个",""+position+":"+cids[position]+":"+data[position]);
-                  Intent intent = new Intent(CityActivity.this,CountryActivity.class);
-                  intent.putExtra("cid",cids[position]);
-                  intent.putExtra("pid",pid);
-                  startActivity(intent);
-              }
-               });
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("点击了哪一个",""+position+":"+cids[position]+":"+data[position]);
+                Intent intent = new Intent(CityActivity.this,CountryActivity.class);
+                intent.putExtra("cid",cids[position]);
+                intent.putExtra("pid",pid);
+                startActivity(intent);
+            }
+        });
         String weatherUrl = "http://guolin.tech/api/china/"+pid;
-        HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
+        com.example.admin.myapplication.HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
 
 
             @Override
