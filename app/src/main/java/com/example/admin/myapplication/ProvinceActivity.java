@@ -82,6 +82,11 @@ public class ProvinceActivity extends AppCompatActivity {
                     public void run() {
                         adapter.notifyDataSetChanged();
                     }
+
+
+
+
+
                 });
             }
 
